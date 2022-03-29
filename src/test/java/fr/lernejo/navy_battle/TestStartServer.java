@@ -16,14 +16,14 @@ public class TestStartServer {
         Server server = new Server(9876);
         HttpClient client = HttpClient.newHttpClient();
 
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http" +
-                        "://localhost:9876/api/game/start"))
-                .POST(HttpRequest.BodyPublishers.ofString("{\"id\":\"666\", " +
-                        "\"url\":\"http://localhost:" + 9876 + "\", " +
-                        "\"message\":\"Hello\"}"))
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:9876/api/game/start"))
+                .GET()
                 .build();
+
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        Assertions.assertEquals(202, response.statusCode());
+
+        Assertions.assertEquals(404, response.statusCode());
         server.stop();
     }
 }
