@@ -1,15 +1,17 @@
 package fr.lernejo.navy_battle.server.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import fr.lernejo.navy_battle.game.CellArray;
-import fr.lernejo.navy_battle.server.response.ResponseCell;
 import fr.lernejo.navy_battle.server.response.ResponseFire;
 
 import java.io.*;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HttpHandlerFire implements HttpHandler, AttributeValidator {
 
@@ -18,14 +20,15 @@ public class HttpHandlerFire implements HttpHandler, AttributeValidator {
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         String body; int statusCode;
+        HashMap node = getJson(httpExchange.getRequestURI().getQuery());
         if (!httpExchange.getRequestMethod().equalsIgnoreCase("GET")) {
             body = "Not Found"; statusCode = 404;
         }
-        else if (!hasValidAttribute(httpExchange)) {
+        else if (!hasValidAttribute(node)) {
             body = "Bad request"; statusCode = 400;
         }
         else {
-            body = getInfoFromCell(new ObjectMapper().readValue(getStringBody(httpExchange.getRequestBody()), ResponseCell.class).getCell()); statusCode = 200;
+            body = getInfoFromCell(node.get("cell").toString()); statusCode = 200;
         }
         httpExchange.sendResponseHeaders(statusCode, body.length());
         try (OutputStream os = httpExchange.getResponseBody()) {
@@ -34,14 +37,19 @@ public class HttpHandlerFire implements HttpHandler, AttributeValidator {
     }
 
     @Override
-    public boolean hasValidAttribute(HttpExchange httpExchange)
+    public boolean hasValidAttribute(JsonNode node) {
+        return false;
+    }
+
+    @Override
+    public boolean hasValidAttribute(HashMap node)
     {
-        String userCell = (String) httpExchange.getAttribute("cell");
-        char i = userCell.charAt(0);
-        char j = userCell.charAt(1);
-        if (userCell == null || userCell.length() != 2 ||
-                !(Character.isLetter(i)
-                        && Character.isDigit(j)))
+        String cell = node.get("cell").toString();
+        if (cell == null)
+            return false;
+        char i = cell.charAt(0);
+        char j = cell.charAt(1);
+        if (cell.length() != 2 || !(Character.isLetter(i) && Character.isDigit(j)))
         {
             return false;
         }
@@ -54,9 +62,8 @@ public class HttpHandlerFire implements HttpHandler, AttributeValidator {
 
     private String getInfoFromCell(String cell) throws JsonProcessingException {
         String line[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
-        String consequence =
-                game.getInfoFromCell(Arrays.asList(line).indexOf(cell.charAt(0)),
-                Integer.parseInt(String.valueOf(cell.charAt(1))));
+            String consequence = game.getInfoFromCell(Arrays.asList(line).indexOf(Character.toString(cell.charAt(0))),
+            Integer.parseInt(String.valueOf(cell.charAt(1))));
         boolean sunk = false;
         if (consequence.equals("sunk"))
         {
@@ -76,5 +83,16 @@ public class HttpHandlerFire implements HttpHandler, AttributeValidator {
         br.close();
         isr.close();
         return buf.toString();
+    }
+
+    public HashMap<String, String> getJson(String body) throws IOException {
+        String[] params = body.split("&");
+        HashMap<String, String> map = new HashMap<String, String>();
+        for (String param : params) {
+            String name = param.split("=")[0];
+            String value = param.split("=")[1];
+            map.put(name, value);
+        }
+        return map;
     }
 }

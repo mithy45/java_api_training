@@ -24,8 +24,8 @@ public class TestFireServer {
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
         Assertions.assertEquals("{" +
-                "\"consequence\": \"miss\", " +
-                "\"shipLeft\": true" +
+                "\"consequence\":\"miss\", " +
+                "\"shipLeft\":\"false\"" +
                 "}", response.body());
         server.stop();
     }

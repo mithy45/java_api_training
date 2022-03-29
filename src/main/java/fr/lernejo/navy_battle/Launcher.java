@@ -12,7 +12,7 @@ public class Launcher {
         if (args.length > 1)
         {
             Client client = new Client(port, args[1]);
-            client.toStart();
+            client.toFire();
         }
     }
 }

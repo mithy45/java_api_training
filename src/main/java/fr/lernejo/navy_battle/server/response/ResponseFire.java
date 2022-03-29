@@ -14,6 +14,6 @@ public class ResponseFire {
     public String getJsonString() throws JsonProcessingException {
         // return new ObjectMapper().writeValueAsString(this);
         return new String("{\"consequence\":\"" + consequence + "\", " +
-                "\"shipleft\":\"" + shipLeft + "\"}");
+                "\"shipLeft\":\"" + shipLeft + "\"}");
     }
 }

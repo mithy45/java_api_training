@@ -1,8 +1,8 @@
 package fr.lernejo.navy_battle.game;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import fr.lernejo.navy_battle.server.response.ResponseStart;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -12,9 +12,10 @@ public class APIGame {
     private final CellArray game = new CellArray();
     private final ResponseStart response;
 
-    public APIGame(ResponseStart responseStart)
+    public APIGame(JsonNode node)
     {
-        response = responseStart;
+        response = new ResponseStart(node.get("id").textValue(), node.get(
+                "url").textValue(), node.get("message").textValue());
     }
 
     public void start() {
@@ -26,6 +27,7 @@ public class APIGame {
                             .build();
             HttpResponse<String> response = client.send(request,
                     HttpResponse.BodyHandlers.ofString());
+            System.out.println(response.body());
         }
         catch (Exception e)
         {

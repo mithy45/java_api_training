@@ -1,5 +1,6 @@
 package fr.lernejo.navy_battle.client;
 import fr.lernejo.navy_battle.game.APIGame;
+import fr.lernejo.navy_battle.game.CellArray;
 import fr.lernejo.navy_battle.server.response.ResponseStart;
 
 import java.net.URI;
@@ -15,6 +16,8 @@ public class Client implements ClientInterface{
     private final String url;
     private final int port;
 
+    private final CellArray game = new CellArray();
+
     public Client(int port, String url) {
         this.port = port;
         this.url = url;
@@ -29,6 +32,7 @@ public class Client implements ClientInterface{
                     .build();
             String response = client.send(requetePost,
                     HttpResponse.BodyHandlers.ofString()).body();
+            System.out.println(response);
         }
         catch (Exception e)
         {
@@ -58,10 +62,10 @@ public class Client implements ClientInterface{
     public void toFire() {
         try
         {
-            HttpRequest requetePost = HttpRequest.newBuilder().uri(URI.create(url + "/api/game/fire")).setHeader("Accept", "application/json").setHeader("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(new ResponseStart(id,
-                            url, "C'est parti les amis !").getJsonString()))
-                    .build();
+            HttpRequest requetePost =
+                    HttpRequest.newBuilder().uri(URI.create(url + "/api/game" +
+                                    "/fire?cell=" + game.getRandomCell())).setHeader("Accept",
+                                    "application/json").setHeader("Content-Type", "application/json").GET().build();
             String response = client.send(requetePost,
                     HttpResponse.BodyHandlers.ofString()).body();
             System.out.println(response);

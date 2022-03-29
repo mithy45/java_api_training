@@ -1,5 +1,6 @@
 package fr.lernejo.navy_battle.server.handler;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -8,6 +9,7 @@ import fr.lernejo.navy_battle.server.response.ResponseStart;
 
 import java.io.*;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class HttpHandlerStart implements HttpHandler, AttributeValidator {
@@ -21,16 +23,16 @@ public class HttpHandlerStart implements HttpHandler, AttributeValidator {
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         String body; int statusCode;
+        JsonNode node = new ObjectMapper().readTree(getStringBody(httpExchange.getRequestBody()));
         if (!httpExchange.getRequestMethod().equalsIgnoreCase("POST")) {
             body = "Not Found"; statusCode = 404;
         }
-        else if (!hasValidAttribute(httpExchange)) {
+        else if (!hasValidAttribute(node)) {
             body = "Bad Request"; statusCode = 400;
         }
         else {
-            body = new ResponseStart(id, "http://localhost:" + port, "May the" + " best code win").getJsonString(); statusCode = 202;
-            APIGame game = new APIGame(new ObjectMapper().readValue(getStringBody(httpExchange.getRequestBody()), ResponseStart.class));
-            game.start();
+            APIGame game = new APIGame(node); body = new ResponseStart(id, "http://localhost:" + port, "May the best code win").getJsonString();
+            statusCode = 202; game.start();
         }
         httpExchange.sendResponseHeaders(statusCode, body.length());
         try (OutputStream os = httpExchange.getResponseBody()) {
@@ -38,10 +40,9 @@ public class HttpHandlerStart implements HttpHandler, AttributeValidator {
     }
 
     @Override
-    public boolean hasValidAttribute(HttpExchange httpExchange) throws IOException {
-        ResponseStart responseStart = new ObjectMapper().readValue(getStringBody(httpExchange.getRequestBody()), ResponseStart.class);
-        String userURL = responseStart.getUrl();
-        if (responseStart.getId() == null || userURL == null || responseStart.getMessage() == null)
+    public boolean hasValidAttribute(JsonNode node) {
+        String userURL = node.get("url").textValue();
+        if (node.get("id") == null || userURL == null || node.get("message") == null)
         {
             return false;
         }
@@ -54,6 +55,11 @@ public class HttpHandlerStart implements HttpHandler, AttributeValidator {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public boolean hasValidAttribute(HashMap node) {
+        return false;
     }
 
     @Override
