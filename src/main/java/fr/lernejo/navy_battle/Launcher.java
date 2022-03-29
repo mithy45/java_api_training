@@ -12,9 +12,8 @@ public class Launcher {
         server.start();
         if (args.length > 1)
         {
-            System.out.println("ici");
             Client client = new Client(port, args[1]);
-            client.toStart();
+            client.toPing();
         }
     }
 }

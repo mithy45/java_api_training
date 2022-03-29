@@ -29,7 +29,6 @@ public class Client implements ClientInterface{
                     .build();
             String response = client.send(requetePost,
                     HttpResponse.BodyHandlers.ofString()).body();
-            System.out.println(response);
         }
         catch (Exception e)
         {

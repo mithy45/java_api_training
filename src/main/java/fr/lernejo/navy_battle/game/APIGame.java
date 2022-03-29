@@ -26,7 +26,6 @@ public class APIGame {
                             .build();
             HttpResponse<String> response = client.send(request,
                     HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.body());
         }
         catch (Exception e)
         {

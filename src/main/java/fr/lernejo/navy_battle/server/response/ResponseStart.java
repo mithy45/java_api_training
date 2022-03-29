@@ -15,7 +15,6 @@ public class ResponseStart {
         String s = new String("{\"id\":\"" + id + "\", \"url\":\"" + url +
                 "\", " +
                 "\"message\":\"" + message + "\"}");
-        System.out.println(s);
         return s;
     }
 
