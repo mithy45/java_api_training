@@ -13,10 +13,11 @@ import java.net.http.HttpResponse;
 public class TestStartServer {
     @Test
     void TestStart() throws IOException, InterruptedException {
-        Server server = new Server(9876);
+        Server server = new Server(8765);
         HttpClient client = HttpClient.newHttpClient();
 
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:9876/api/game/start"))
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http" +
+                        "://localhost:8765/api/game/start"))
                 .POST(HttpRequest.BodyPublishers.ofString("{\"id\":\"1\", " +
                         "\"url\":\"http://localhost:9876" + "\", " +
                         "\"message\":\"Hello\"}"))

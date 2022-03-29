@@ -13,11 +13,11 @@ import java.net.http.HttpResponse;
 public class TestFireServer {
     @Test
     void TestFireMiss() throws IOException, InterruptedException {
-        Server server = new Server(9876);
+        Server server = new Server(7654);
         HttpClient client = HttpClient.newHttpClient();
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:9876/api/game/fire?cell=I9"))
+                .uri(URI.create("http://localhost:7654/api/game/fire?cell=I9"))
                 .GET()
                 .build();
 
