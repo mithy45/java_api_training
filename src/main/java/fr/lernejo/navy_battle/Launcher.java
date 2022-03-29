@@ -9,7 +9,6 @@ public class Launcher {
     public static void main(String args[]) throws IOException {
         int port = Integer.parseInt(args[0]);
         Server server = new Server(port);
-        server.start();
         if (args.length > 1)
         {
             Client client = new Client(port, args[1]);
