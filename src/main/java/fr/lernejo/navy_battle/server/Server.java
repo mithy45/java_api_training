@@ -19,6 +19,7 @@ public class Server {
         server.createContext("/ping", new HttpHandlerPing());
         server.createContext("/api/game/start", new HttpHandlerStart(port));
         server.createContext("/api/game/fire", new HttpHandlerFire());
+        server.start();
     }
 
     public void start()

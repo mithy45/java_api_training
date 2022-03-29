@@ -1,7 +1,6 @@
 package fr.lernejo.navy_battle;
 
 import fr.lernejo.navy_battle.server.Server;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
