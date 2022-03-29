@@ -22,11 +22,7 @@ public class APIGame {
         {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request =
-                    HttpRequest.newBuilder().uri(URI.create(response.getUrl()
-                                    + "/api/game/fire?cell=" + game.getRandomCell()))
-                            .setHeader("Accept", "application/json")
-                            .setHeader("Content-Type", "application/json")
-                            .GET()
+                    HttpRequest.newBuilder().uri(URI.create(response.getUrl() + "/api/game/fire?cell=" + game.getRandomCell())).setHeader("Accept", "application/json").setHeader("Content-Type", "application/json").GET()
                             .build();
             HttpResponse<String> response = client.send(request,
                     HttpResponse.BodyHandlers.ofString());

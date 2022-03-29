@@ -27,25 +27,15 @@ public class CellArray {
 
     public void initTabBoat() {
         for (int j = 0; j != 5; j = j + 1)
-        {
             tab[0][j].setBoat('p');
-        }
         for (int j = 0; j != 4; j = j + 1)
-        {
             tab[8][j].setBoat('c');
-        }
         for (int j = 0; j != 3; j = j + 1)
-        {
             tab[j][8].setBoat('r');
-        }
         for (int j = 2; j != 5; j = j + 1)
-        {
             tab[4][j].setBoat('r');
-        }
         for (int j = 0; j != 2; j = j + 1)
-        {
             tab[j][6].setBoat('t');
-        }
     }
 
     public String getInfoFromCell(int i, int j)
@@ -58,15 +48,11 @@ public class CellArray {
             for (int x = 0; x!= 10; x = x + 1)
             {
                 if (tab[y][x].toString().equals(tab[i][j].toString()))
-                {
                     max = max + 1;
-                }
             }
         }
         if (max == lengthBoat.get(tab[i][j].toString()))
-        {
             return "sunk";
-        }
         return "hit";
     }
 

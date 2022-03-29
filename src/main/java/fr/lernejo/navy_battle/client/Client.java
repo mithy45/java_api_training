@@ -24,10 +24,7 @@ public class Client implements ClientInterface{
     public void toPing() {
         try
         {
-            HttpRequest requetePost = HttpRequest.newBuilder()
-                    .uri(URI.create(url + "/ping"))
-                    .setHeader("Accept", "application/json")
-                    .setHeader("Content-Type", "application/json")
+            HttpRequest requetePost = HttpRequest.newBuilder().uri(URI.create(url + "/ping")).setHeader("Accept", "application/json").setHeader("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(new ResponseStart(id, url, "Ping").getJsonString()))
                     .build();
             String response = client.send(requetePost,
@@ -44,11 +41,8 @@ public class Client implements ClientInterface{
     public void toStart() {
         try
         {
-            HttpRequest requetePost = HttpRequest.newBuilder()
-                    .uri(URI.create(url + "/api/game/start"))
-                    .setHeader("Accept", "application/json")
-                    .setHeader("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(new ResponseStart(id,
+            HttpRequest requetePost =
+                    HttpRequest.newBuilder().uri(URI.create(url + "/api/game/start")).setHeader("Accept", "application/json").setHeader("Content-Type", "application/json").POST(HttpRequest.BodyPublishers.ofString(new ResponseStart(id,
                             url, "C'est parti les amis !").getJsonString()))
                     .build();
             String response = client.send(requetePost,
@@ -65,10 +59,7 @@ public class Client implements ClientInterface{
     public void toFire() {
         try
         {
-            HttpRequest requetePost = HttpRequest.newBuilder()
-                    .uri(URI.create(url + "/api/game/fire"))
-                    .setHeader("Accept", "application/json")
-                    .setHeader("Content-Type", "application/json")
+            HttpRequest requetePost = HttpRequest.newBuilder().uri(URI.create(url + "/api/game/fire")).setHeader("Accept", "application/json").setHeader("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(new ResponseStart(id,
                             url, "C'est parti les amis !").getJsonString()))
                     .build();

@@ -20,46 +20,28 @@ public class HttpHandlerStart implements HttpHandler, AttributeValidator {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        String body;
-        int statusCode;
+        String body; int statusCode;
         if (!httpExchange.getRequestMethod().equalsIgnoreCase("POST")) {
-            body = "Not Found";
-            statusCode = 404;
+            body = "Not Found"; statusCode = 404;
         }
-        else if (!hasValidAttribute(httpExchange))
-        {
-            body = "Bad Request";
-            statusCode = 400;
+        else if (!hasValidAttribute(httpExchange)) {
+            body = "Bad Request"; statusCode = 400;
         }
-        else
-        {
-            body = new ResponseStart(id, "http://localhost:" +
-                    Integer.toString(port),
-                    "May the best code win").getJsonString();
-            statusCode = 202;
-            APIGame game =
-                    new APIGame(new ObjectMapper().
-                            readValue(getStringBody(httpExchange.getRequestBody()),
-                                    ResponseStart.class));
+        else {
+            body = new ResponseStart(id, "http://localhost:" + port, "May the" + " best code win").getJsonString(); statusCode = 202;
+            APIGame game = new APIGame(new ObjectMapper().readValue(getStringBody(httpExchange.getRequestBody()), ResponseStart.class));
             game.start();
         }
         httpExchange.sendResponseHeaders(statusCode, body.length());
         try (OutputStream os = httpExchange.getResponseBody()) {
-            os.write(body.getBytes());
-        }
+            os.write(body.getBytes()); }
     }
 
     @Override
     public boolean hasValidAttribute(HttpExchange httpExchange) throws IOException {
-        String body = getStringBody(httpExchange.getRequestBody());
-        System.out.println("valid " + body);
-        ResponseStart responseStart = new ObjectMapper().readValue(body,
-                ResponseStart.class);
-        System.out.println("good");
-        String userID = responseStart.getId();
+        ResponseStart responseStart = new ObjectMapper().readValue(getStringBody(httpExchange.getRequestBody()), ResponseStart.class);
         String userURL = responseStart.getUrl();
-        String userMessage = responseStart.getMessage();
-        if (userID == null || userURL == null || userMessage == null)
+        if (responseStart.getId() == null || userURL == null || responseStart.getMessage() == null)
         {
             return false;
         }
