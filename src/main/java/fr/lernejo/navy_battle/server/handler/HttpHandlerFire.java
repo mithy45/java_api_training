@@ -18,16 +18,13 @@ public class HttpHandlerFire implements HttpHandler, AttributeValidator {
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         String body; int statusCode;
-        if (!httpExchange.getRequestMethod().equalsIgnoreCase("GET"))
-        {
+        if (!httpExchange.getRequestMethod().equalsIgnoreCase("GET")) {
             body = "Not Found"; statusCode = 404;
         }
-        else if (!hasValidAttribute(httpExchange))
-        {
+        else if (!hasValidAttribute(httpExchange)) {
             body = "Bad request"; statusCode = 400;
         }
-        else
-        {
+        else {
             body = getInfoFromCell(new ObjectMapper().readValue(getStringBody(httpExchange.getRequestBody()), ResponseCell.class).getCell()); statusCode = 200;
         }
         httpExchange.sendResponseHeaders(statusCode, body.length());
