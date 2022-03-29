@@ -14,7 +14,6 @@ public class TestStartServer {
     @Test
     void TestStart() throws IOException, InterruptedException {
         Server server = new Server(9876);
-        server.start();
         HttpClient client = HttpClient.newHttpClient();
 
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:9876/api/game/start"))

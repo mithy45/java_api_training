@@ -13,7 +13,6 @@ public class TestPingServer {
     @Test
     void TestPing() throws InterruptedException, IOException {
         Server server = new Server(9876);
-        server.start();
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:9876/ping"))
