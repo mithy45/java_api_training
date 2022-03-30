@@ -29,4 +29,20 @@ public class TestFireServer {
                 "}", response.body());
         server.stop();
     }
+
+    @Test
+    void TestFirePost() throws IOException, InterruptedException {
+        Server server = new Server(7654);
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:7654/api/game/fire?cell=I9"))
+                .POST(HttpRequest.BodyPublishers.ofString(""))
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        Assertions.assertEquals("Not Found", response.body());
+        server.stop();
+    }
 }

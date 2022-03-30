@@ -19,19 +19,18 @@ public class APIGame {
     }
 
     public void start() {
-        try
-        {
-            HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request =
-                    HttpRequest.newBuilder().uri(URI.create(response.getUrl() + "/api/game/fire?cell=" + game.getRandomCell())).setHeader("Accept", "application/json").setHeader("Content-Type", "application/json").GET()
-                            .build();
-            HttpResponse<String> response = client.send(request,
-                    HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.body());
-        }
-        catch (Exception e)
-        {
-            System.err.println(e);
-        }
+        try {
+            for (int i = 0; i != 10; i = i + 1) {
+                for (int j = 0; j != 10; j = j + 1) {
+                    HttpClient client = HttpClient.newHttpClient();
+                    HttpRequest request =
+                            HttpRequest.newBuilder().uri(URI.create(response.getUrl() + "/api/game/fire?cell=" + game.getCellString(i, j))).setHeader("Accept", "application/json").setHeader("Content-Type", "application/json").GET()
+                                    .build();
+                    HttpResponse<String> response = client.send(request,
+                            HttpResponse.BodyHandlers.ofString());
+                    System.out.println(response.body());
+                }
+            }
+        } catch (Exception e) { System.err.println(e);}
     }
 }

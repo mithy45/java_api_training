@@ -25,7 +25,7 @@ public class HttpHandlerFire implements HttpHandler, AttributeValidator {
         if (!httpExchange.getRequestMethod().equalsIgnoreCase("GET")) {
             body = "Not Found"; statusCode = 404;
         }
-        else if (!hasValidAttribute(node)) {
+        else if (node == null || !hasValidAttribute(node)) {
             body = "Bad request"; statusCode = 400;
         }
         else {

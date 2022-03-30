@@ -56,6 +56,12 @@ public class CellArray {
         return "hit";
     }
 
+    public String getCellString(int i, int j)
+    {
+        String line[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
+        return line[i] + j;
+    }
+
     public String getRandomCell()
     {
         String line[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};

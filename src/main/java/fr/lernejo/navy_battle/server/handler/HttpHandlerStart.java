@@ -27,7 +27,7 @@ public class HttpHandlerStart implements HttpHandler, AttributeValidator {
         if (!httpExchange.getRequestMethod().equalsIgnoreCase("POST")) {
             body = "Not Found"; statusCode = 404;
         }
-        else if (!hasValidAttribute(node)) {
+        else if (node == null || !hasValidAttribute(node)) {
             body = "Bad Request"; statusCode = 400;
         }
         else {

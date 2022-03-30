@@ -1,6 +1,7 @@
 package fr.lernejo.navy_battle;
 
 import fr.lernejo.navy_battle.server.Server;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -18,7 +19,9 @@ public class TestPingServer {
                 .uri(URI.create("http://localhost:9876/ping"))
                 .GET()
                 .build();
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        String response = client.send(request,
+                HttpResponse.BodyHandlers.ofString()).body();
+        Assertions.assertEquals("OK", response);
         server.stop();
     }
 }
