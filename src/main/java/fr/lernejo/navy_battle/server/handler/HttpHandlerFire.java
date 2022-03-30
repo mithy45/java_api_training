@@ -31,7 +31,6 @@ public class HttpHandlerFire implements HttpHandler, AttributeValidator {
         else {
             body = getInfoFromCell(node.get("cell").toString()); statusCode = 200;
         }
-        httpExchange.getRequestHeaders().put("Content-Type", Collections.singletonList("application/json"));
         httpExchange.sendResponseHeaders(statusCode, body.length());
         try (OutputStream os = httpExchange.getResponseBody()) {
             os.write(body.getBytes());}
