@@ -46,8 +46,7 @@ public class Client implements ClientInterface{
         {
             HttpRequest requetePost =
                     HttpRequest.newBuilder().uri(URI.create(url + "/api/game/start")).setHeader("Accept", "application/json").setHeader("Content-Type", "application/json").POST(HttpRequest.BodyPublishers.ofString(new ResponseStart(id,
-                            "http://localhost:" + port,
-                                    "C'est parti les amis !").getJsonString()))
+                            url, "C'est parti les amis !").getJsonString()))
                     .build();
             String response = client.send(requetePost,
                     HttpResponse.BodyHandlers.ofString()).body();
